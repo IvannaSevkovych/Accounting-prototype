@@ -8,9 +8,8 @@ export function TransactionType(props) {
 
     return(
     <label>
-        {props.name}
           <select value={props.value} onChange={handleChange}>
-            <option value={undefined}></option>
+            <option value="" hidden >{props.name}</option>
             <option value="expense">Expense</option>
             <option value="income">Income</option>
             <option value="internal">Internal transaction</option>

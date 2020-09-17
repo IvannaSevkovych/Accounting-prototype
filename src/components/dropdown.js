@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import IosArrowDown from 'react-ionicons/lib/IosArrowDown'
 
 export function Dropdown(props) {
 
@@ -25,9 +26,8 @@ export function Dropdown(props) {
         
         return (
             <label>
-                {props.name}
-                <select value={props.value} onChange={handleChange}>
-                    <option value={undefined}></option>
+                <select placeholder={props.name} value={props.value} onChange={handleChange} >
+                    <option value={undefined} disabled selected hidden>{props.name}</option>
                     {
                         items.map(
                             item => {
@@ -43,7 +43,6 @@ export function Dropdown(props) {
     } else {
         return (
             <label>
-                {props.name}
                 <select value="" readOnly></select>
             </label>
         );

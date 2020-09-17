@@ -17,8 +17,7 @@ export function InputField(props) {
 
     return (
         <label>
-            {props.name}
-            <input value={props.value} onChange={handleChange} />
+            <input value={props.value} onChange={handleChange} placeholder={props.name} />
         </label>
     )
 }
