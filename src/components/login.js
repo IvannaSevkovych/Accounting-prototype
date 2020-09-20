@@ -1,62 +1,60 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
-// Importing components
-import { InputField } from './inputField';
 
-export function Login(props) {
+export function Login() {
 
-    // State stuff
-    const [user, setUser] = useState('');
-    const [password, setPassword] = useState('');
+  const { register, handleSubmit, errors } = useForm();
 
-    // Helper functions
-        const submitPostRequest = (e) => {
-        e.preventDefault();
-  
-        const url = `${process.env.REACT_APP_SERVICE_BASE_URL}/login`;
-    
-        const body = {
-            user: user.toLowerCase(), 
-            password,
-        }; 
-    
-    
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-        })
-        .then(response=>{
-          alert(response.status + " " + response.statusText); //TODO show status
-          localStorage.setItem('token', response.status)
-        })
-        .then(()=>console.log(body))
-        .catch(error=>alert(error))
-      }
 
-    
+  // Helper functions
+      const submitPostRequest = (data) => {
 
-    return (
+      const url = `${process.env.REACT_APP_SERVICE_BASE_URL}/login`;
 
-        <div className="Login">
 
-            <h1>Login Page</h1>
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response=>{
+        alert(response.status + " " + response.statusText); //TODO show status
+        return response.json();
+      })
+      .then(user=>console.log(user))
+      .catch(error=>alert(error))
+    }
 
-            <form
-                onSubmit={submitPostRequest}
-                >
 
-                <InputField name="User:" value={user} onChange={setUser} />
+  return (
 
-                <InputField name="Password:" value={password} onChange={setPassword} />
+    <div className="Login">
 
-                <button type="submit" >Submit</button>
+      <h1>Login Page</h1>
 
-            </form>
+      <form
+        onSubmit={handleSubmit(submitPostRequest)}
+      >
 
-            
-        </div>
-    )
+        <input type="text" placeholder="User:" name="user" ref={register} />
+
+        <input
+          type="password"
+          placeholder="Password:"
+          name="password"
+          ref={register({ required: "Password required", minLength: { value: 8, message: "Password is too short"} })} 
+        />
+
+        {errors.password && <h4>{errors.password.message}</h4>}
+
+        <button type="submit" >Submit</button>
+
+      </form>
+
+
+    </div>
+  )
 }
