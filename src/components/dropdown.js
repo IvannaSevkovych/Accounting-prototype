@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import IosArrowDown from 'react-ionicons/lib/IosArrowDown'
 
 export function Dropdown(props) {
 
