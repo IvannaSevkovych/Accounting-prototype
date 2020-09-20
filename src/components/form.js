@@ -20,6 +20,7 @@ export function Form() {
   const [taxCategory, setTaxCategory] = useState(undefined);
   const [paymentMethod, setpaymentMethod] = useState(undefined);
   const [receipt, setReceipt] = useState(undefined);
+  const [paymentReference, setPaymentReference] = useState(undefined);
 
   // Helper functions
   const submitPostRequest = (e) => {
@@ -36,10 +37,12 @@ export function Form() {
       source_bank_account: paymentSourceAccount,
       target_bank_account: paymentTargetAccount,
       agent: "Ivanna",
+      currency: "EUR",
       tax_relevant: taxRelevance,
       tax_category: taxCategory,
       payment_method: paymentMethod,
       receipt,
+      comment: paymentReference,
     };// TODO comment, currency, exchange_rate
 
 
@@ -91,6 +94,8 @@ export function Form() {
         <label>
           <input type="number" placeholder="Amount:" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} />
         </label>
+
+        <InputField name="Payment Reference:" value={paymentReference} onChange={setPaymentReference} />
 
         <Dropdown name="Payment source account:" value={paymentSourceAccount} onChange={setPaymentSourceAccount} endpoint="/utils/bankAccounts" />
 
