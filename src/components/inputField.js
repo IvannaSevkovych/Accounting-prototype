@@ -2,22 +2,23 @@ import React from 'react';
 
 export function InputField(props) {
 
-    const splitAndSetArray = (stringToSplit) => {
-        const splitChar = " "; //TODO: /[.,/ -]/;
-        props.onChange(stringToSplit.split(splitChar));
+    const normalizeInput = (stringToNormalize) => {
+        return stringToNormalize.replace(/[.,/-]/g," ").replace(/\s\s+/g," ");
     }
-
-    const handleChange = (e) => {
-        if(props.doSplit){
-            splitAndSetArray(e.target.value);
-        }else {
-            props.onChange(e.target.value);
-        }
-    };
 
     return (
         <label>
-            <input value={props.value} onChange={handleChange} placeholder={props.name} />
+            <input 
+            name={props.name}
+            ref={props.register}
+            placeholder={props.placeholder} 
+            onChange = { (e) => { 
+                if(props.doNormalize) {
+                const {value} = e.target;
+                e.target.value = normalizeInput(value)
+            }
+            }}
+            />
         </label>
     )
 }
