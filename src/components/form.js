@@ -8,15 +8,19 @@ import { InputField } from './inputField';
 
 export function Form() {
   // State stuff
-  const [type, setType] = useState("");
-  const [paymentSourceAccount, setPaymentSourceAccount] = useState("");
-  const [paymentTargetAccount, setPaymentTargetAccount] = useState("");
   const [taxRelevance, setTaxRelevance] = useState(false);
-  const [taxCategory, setTaxCategory] = useState("");
-  const [paymentMethod, setpaymentMethod] = useState("");
   const [receipt, setReceipt] = useState("");
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm({
+    defaultValues: {
+      type: "",
+      source_bank_account: "",
+      target_bank_account: "",
+      target_bank_account: "",
+      payment_method: "",
+      tax_category: "",
+    }
+  });
 
   // Helper functions
   const submitPostRequest = (data) => {
@@ -59,7 +63,7 @@ export function Form() {
   let taxCategoryElement = null;
   if (taxRelevance) {
     taxCategoryElement = (
-      <Dropdown name="Tax category:" value={taxCategory} onChange={setTaxCategory} endpoint="/utils/taxCategories" />
+      <Dropdown name="tax_category" placeholder="Tax category:" register={register} endpoint="/utils/taxCategories" />
     );
   }
 
@@ -73,7 +77,7 @@ export function Form() {
       <form
         onSubmit={handleSubmit(submitPostRequest)}>
 
-        <Dropdown name="Type:" value={type} onChange={setType} endpoint="/utils/expenseTypes" />
+        <Dropdown name="type" placeholder="Type:" register={register} required endpoint="/utils/expenseTypes" />
 
         <InputField name="origin" placeholder="Origin:" register={register}/>
 
@@ -91,11 +95,11 @@ export function Form() {
           <input name="amount" placeholder="Amount:" type="number" step="0.01" ref={register} />
         </label>
 
-        <InputField name="paymentReference" placeholder="Payment Reference:" register={register} />
+        <InputField name="paymentReference" placeholder="Payment Reference :" register={register} />
 
-        <Dropdown name="Payment source account:" value={paymentSourceAccount} onChange={setPaymentSourceAccount} endpoint="/utils/bankAccounts" />
+        <Dropdown name="source_bank_account" placeholder="Payment source :" register={register} endpoint="/utils/bankAccounts" />
 
-        <Dropdown name="Payment target account:" value={paymentTargetAccount} onChange={setPaymentTargetAccount} endpoint="/utils/bankAccounts" />
+        <Dropdown name="target_bank_account" placeholder="Payment target :" register={register} endpoint="/utils/bankAccounts" />
 
         <label className="wrapper">
           Is tax relevant:
@@ -106,7 +110,7 @@ export function Form() {
           taxCategoryElement
         }
 
-        <Dropdown name="Payment method:" value={paymentMethod} onChange={setpaymentMethod} endpoint="/utils/paymentMethods" />
+        <Dropdown name="payment_method" placeholder="Payment method:" register={register} endpoint="/utils/paymentMethods" />
 
 
         <label className="wrapper">

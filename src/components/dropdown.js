@@ -14,19 +14,16 @@ export function Dropdown(props) {
             });
     }, [props.endpoint]);
 
-    
-    // Helper wrapper function
-    const handleChange = (e) => {
-        props.onChange(e.target.value);
-    }
 
 
     if (items.length > 0) {
+
+        const {register, required} = props;
         
         return (
             <label>
-                <select placeholder={props.name} value={props.value} onChange={handleChange} >
-                    <option value="" disabled hidden>{props.name}</option>
+                <select name={props.name} placeholder={props.placeholder} ref={register()}>
+                    <option value="" hidden>{props.placeholder}</option>
                     {
                         items.map(
                             item => {
