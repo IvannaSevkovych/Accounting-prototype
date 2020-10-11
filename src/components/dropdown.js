@@ -26,7 +26,7 @@ export function Dropdown(props) {
         return (
             <label>
                 <select placeholder={props.name} value={props.value} onChange={handleChange} >
-                    <option value={undefined} disabled selected hidden>{props.name}</option>
+                    <option value="" disabled hidden>{props.name}</option>
                     {
                         items.map(
                             item => {

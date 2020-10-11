@@ -8,13 +8,13 @@ import { InputField } from './inputField';
 
 export function Form() {
   // State stuff
-  const [type, setType] = useState(undefined);
-  const [paymentSourceAccount, setPaymentSourceAccount] = useState(undefined);
-  const [paymentTargetAccount, setPaymentTargetAccount] = useState(undefined);
+  const [type, setType] = useState("");
+  const [paymentSourceAccount, setPaymentSourceAccount] = useState("");
+  const [paymentTargetAccount, setPaymentTargetAccount] = useState("");
   const [taxRelevance, setTaxRelevance] = useState(false);
-  const [taxCategory, setTaxCategory] = useState(undefined);
-  const [paymentMethod, setpaymentMethod] = useState(undefined);
-  const [receipt, setReceipt] = useState(undefined);
+  const [taxCategory, setTaxCategory] = useState("");
+  const [paymentMethod, setpaymentMethod] = useState("");
+  const [receipt, setReceipt] = useState("");
 
   const { register, handleSubmit, errors } = useForm();
 
@@ -117,7 +117,7 @@ export function Form() {
           </div>
         </label>
 
-        <button type="submit" >Submit</button>
+        <button type="submit">Submit</button>
 
 
       </form>
