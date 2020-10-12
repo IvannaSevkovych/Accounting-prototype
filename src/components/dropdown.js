@@ -18,7 +18,7 @@ export function Dropdown(props) {
 
     if (items.length > 0) {
 
-        const {register, required} = props;
+        const {register} = props;
         
         return (
             <label>

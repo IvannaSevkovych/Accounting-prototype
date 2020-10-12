@@ -9,7 +9,7 @@ import { InputField } from './inputField';
 export function Form() {
   // State stuff
   const [taxRelevance, setTaxRelevance] = useState(false);
-  const [receipt, setReceipt] = useState("");
+  // const [receipt, setReceipt] = useState("");
 
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
@@ -19,6 +19,7 @@ export function Form() {
       target_bank_account: "",
       payment_method: "",
       tax_category: "",
+      tax_relevant: false,
     }
   });
 
@@ -26,7 +27,17 @@ export function Form() {
   const submitPostRequest = (data) => {
     console.log(data);
 
-    // const url = `${process.env.REACT_APP_SERVICE_BASE_URL}/home/expenses`;
+    const url = `${process.env.REACT_APP_SERVICE_BASE_URL}/home/expenses`;
+
+    const body = {
+      ...data,
+      tags: null, //data.tags.filter(tag => tag.length > 0)
+      agent: "Ivanna",
+      currency: "EUR",
+      exchange_rate: 1,
+      
+
+    }
 
   //   const transactionAmount = transactionType.toLowerCase() === "expense" ? -1 * amount : amount;
   //   const body = {
@@ -38,6 +49,7 @@ export function Form() {
   //     target_bank_account: paymentTargetAccount,
   //     agent: "Ivanna",
   //     currency: "EUR",
+  //     exchange_rate: 1,
   //     tax_relevant: taxRelevance,
   //     tax_category: taxCategory,
   //     payment_method: paymentMethod,
@@ -103,7 +115,8 @@ export function Form() {
 
         <label className="wrapper">
           Is tax relevant:
-            <button className="smallInlineButton" onClick={(e) => { e.preventDefault(); setTaxRelevance(!taxRelevance); }}></button>
+            {/* <button className="smallInlineButton" onClick={(e) => { e.preventDefault(); setTaxRelevance(!taxRelevance); }}></button> */}
+            <button className="smallInlineButton" ref={register} name="tax_relevant"></button>
         </label>
 
         {
@@ -116,7 +129,7 @@ export function Form() {
         <label className="wrapper">
           Receipt:
             <div className="wrapperInside">
-            <input className="hideInput" type="file" value={receipt} onChange={setReceipt} />
+            <input className="hideInput" type="file" name="receipt" ref={register} />
             <button className="smallInlineButton"></button>
           </div>
         </label>
