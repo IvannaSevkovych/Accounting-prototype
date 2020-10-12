@@ -9,7 +9,6 @@ import { InputField } from './inputField';
 export function Form() {
   // State stuff
   const [taxRelevance, setTaxRelevance] = useState(false);
-  // const [receipt, setReceipt] = useState("");
 
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
@@ -25,50 +24,37 @@ export function Form() {
 
   // Helper functions
   const submitPostRequest = (data) => {
-    console.log(data);
 
     const url = `${process.env.REACT_APP_SERVICE_BASE_URL}/home/expenses`;
+    const transactionAmount = data.transactionType.toLowerCase() === "expense" ? -1 * data.amount : data.amount;
 
     const body = {
       ...data,
-      tags: null, //data.tags.filter(tag => tag.length > 0)
+      tags: data.tags.split(" "),
       agent: "Ivanna",
       currency: "EUR",
       exchange_rate: 1,
-      
-
+      tax_relevant: taxRelevance,
+      amount: transactionAmount,
+      agent: "Ivanna",
+      currency: "EUR",
+      exchange_rate: 1,
+      receipt: null
     }
 
-  //   const transactionAmount = transactionType.toLowerCase() === "expense" ? -1 * amount : amount;
-  //   const body = {
-  //     type, origin, description,
-  //     tags: tags.filter(tag => tag.length > 0),
-  //     date,
-  //     amount: transactionAmount,
-  //     source_bank_account: paymentSourceAccount,
-  //     target_bank_account: paymentTargetAccount,
-  //     agent: "Ivanna",
-  //     currency: "EUR",
-  //     exchange_rate: 1,
-  //     tax_relevant: taxRelevance,
-  //     tax_category: taxCategory,
-  //     payment_method: paymentMethod,
-  //     receipt,
-  //     comment: paymentReference,
-  //   };// TODO comment, currency, exchange_rate
+    console.log(body);
 
-
-  //   fetch(url, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(body)
-  //   })
-  //     .then(response => {
-  //       alert(response.status + " " + response.statusText); //TODO show status
-  //     })
-  //     .catch(error => alert(error))
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+      .then(response => {
+        alert(response.status + " " + response.statusText); //TODO show status
+      })
+      .catch(error => alert(error))
   }
 
   // Conditional rendering of the taxCategory element
@@ -107,7 +93,7 @@ export function Form() {
           <input name="amount" placeholder="Amount:" type="number" step="0.01" ref={register} />
         </label>
 
-        <InputField name="paymentReference" placeholder="Payment Reference :" register={register} />
+        <InputField name="comment" placeholder="Payment Reference :" register={register} />
 
         <Dropdown name="source_bank_account" placeholder="Payment source :" register={register} endpoint="/utils/bankAccounts" />
 
@@ -115,8 +101,7 @@ export function Form() {
 
         <label className="wrapper">
           Is tax relevant:
-            {/* <button className="smallInlineButton" onClick={(e) => { e.preventDefault(); setTaxRelevance(!taxRelevance); }}></button> */}
-            <button className="smallInlineButton" ref={register} name="tax_relevant"></button>
+            <button className="smallInlineButton" onClick={(e) => { e.preventDefault(); setTaxRelevance(!taxRelevance); }}></button>
         </label>
 
         {
